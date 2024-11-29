@@ -13,6 +13,8 @@ This method preserves plugin options but requires plugins be manually reactivate
 #Search By SQL
 SELECT * FROM `ypia_options` WHERE `option_name` LIKE 'active_plugins'
 
+SELECT option_value FROM `ypia_options` WHERE option_name = 'active_plugins';
+
 UPDATE wp_options 
 SET option_value = 'a:0:{}'
 WHERE option_name = 'active_plugins';
