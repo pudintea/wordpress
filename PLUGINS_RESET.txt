@@ -1,0 +1,24 @@
+
+
+
+
+
+Use phpMyAdmin to deactivate all plugins.
+
+In the table wp_options, under the option_name column (field) find the active_plugins row
+Change the option_value field to: a:0:{}
+Or reset your plugins folder via FTP or the file manager provided in your host’s control panel.
+This method preserves plugin options but requires plugins be manually reactivated.
+
+#Search By SQL
+SELECT * FROM `ypia_options` WHERE `option_name` LIKE 'active_plugins'
+
+
+Via FTP or your host’s file manager, navigate to the wp-contents folder (directory)
+Via FTP or your host’s file manager, rename the folder “plugins” to “plugins.hold”
+Login to your WordPress administration plugins page (/wp-admin/plugins.php) – this will disable any plugin that is “missing”.
+Via FTP or your host’s file manager, rename “plugins.hold” back to “plugins”
+
+
+
+============== PUDIN.MY.ID =======================================
