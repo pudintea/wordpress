@@ -1,0 +1,33 @@
+Github : https://github.com/soulteary/docker-sqlite-wordpress
+DockerHub Page: https://hub.docker.com/r/soulteary/sqlite-wordpress
+
+# use latest
+> docker pull soulteary/sqlite-wordpress
+# use specify version
+> docker pull soulteary/sqlite-wordpress:6.5.3
+
+DOCKER COMPOSE
+===============
+Doc : https://github.com/soulteary/docker-sqlite-wordpress/blob/main/docker-compose.yml
+> nano docker-compose.yml
+
+version: '3'
+services:
+  wordpress:
+    image: soulteary/sqlite-wordpress:6.5.3
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./wordpress:/var/www/html
+
+
+> docker compose up -d
+localhost:8080
+
+
+
+
+
+
+========================== PUDIN.MY.ID ================================
