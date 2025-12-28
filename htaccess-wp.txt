@@ -231,7 +231,7 @@ DirectoryIndex index.php index.html /index.php
         order allow,deny
         deny from all
 </Files>
-  
+
 <Files .htaccess>
         order allow,deny
         deny from all
@@ -257,7 +257,6 @@ DirectoryIndex index.php index.html /index.php
   </Directory>
 </IfModule>
 
-
 # ==================
 # GZIP COMPRESSION
 # ==================
@@ -266,6 +265,12 @@ DirectoryIndex index.php index.html /index.php
   AddOutputFilterByType DEFLATE application/javascript application/x-javascript
 </IfModule>
 
+# =====================================
+# HSTS, HTTP Strict Transport Security
+# =====================================
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+</IfModule>
 
 # ==========================================
 # BROWSER & HTTP CACHE (CLOUDFLARE FRIENDLY)
