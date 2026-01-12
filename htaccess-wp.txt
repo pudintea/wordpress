@@ -1,308 +1,85 @@
-//V1
+# ====================================
+# BASIC SECURITY PUDIN (italazhar.com)
+# ====================================
 
+# =========================================================
 # mencegah aksess ke folder yang tidak ada file index.html
+# =========================================================
 Options -Indexes
-Options All -Indexes
+#Options All -Indexes
 
+# ==============================================
+# File pertama di eksekusi adalah index.php
+# jika tidak ada baru index.html
+# ==============================================
 DirectoryIndex index.php index.html /index.php
 
-# BEGIN WordPress
-RewriteEngine On
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-
-# END WordPress
-
-# Block WordPress xmlrpc.php requests
-<Files xmlrpc.php>
-        order allow,deny
-        deny from all
-</Files>
-
-<Files wp-config.php>
-        order allow,deny
-        deny from all
-</Files>
-  
-<Files .htaccess>
-        order allow,deny
-        deny from all
-</Files>
-
-<Files wp-cron.php>
-        order allow,deny
-        deny from all
-</Files>
-
-<IfModule mod_headers.c>
-    Header always append X-Frame-Options "DENY"
-    Header always append Content-Security-Policy "frame-ancestors 'self'"
-</IfModule>
-
-<IfModule mod_gzip.c>
-   mod_gzip_on Yes
-   mod_gzip_dechunk Yes
-   mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
-   mod_gzip_item_include handler ^cgi-script$
-   mod_gzip_item_include mime ^text/.*
-   mod_gzip_item_include mime ^application/x-javascript.*
-   mod_gzip_item_exclude mime ^image/.*
-   mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
-</IfModule>
-
-# BEGIN DEFLATE COMPRESSION
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html
-    AddOutputFilterByType DEFLATE text/css
-    AddOutputFilterByType DEFLATE text/javascript
-    AddOutputFilterByType DEFLATE text/xml
-    AddOutputFilterByType DEFLATE text/plain
-    AddOutputFilterByType DEFLATE image/x-icon
-    AddOutputFilterByType DEFLATE image/svg+xml
-    AddOutputFilterByType DEFLATE application/rss+xml
-    AddOutputFilterByType DEFLATE application/javascript
-    AddOutputFilterByType DEFLATE application/x-javascript
-    AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/xhtml+xml
-    AddOutputFilterByType DEFLATE application/x-font
-    AddOutputFilterByType DEFLATE application/x-font-truetype
-    AddOutputFilterByType DEFLATE application/x-font-ttf
-    AddOutputFilterByType DEFLATE application/x-font-otf
-    AddOutputFilterByType DEFLATE application/x-font-opentype
-    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
-    AddOutputFilterByType DEFLATE font/ttf
-    AddOutputFilterByType DEFLATE font/otf
-    AddOutputFilterByType DEFLATE font/opentype
-    # For Olders Browsers Which Can't Handle Compression
-    BrowserMatch ^Mozilla/4 gzip-only-text/html
-    BrowserMatch ^Mozilla/4\.0[678] no-gzip
-    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-</IfModule>
-
-
-
-=================================================================================
-//V2
-
-
-
-
-
-
-#.htaccess
-# pudin.my.id
-# Adjust default time zone
-SetEnv TZ Asia/Jakarta
-
-# mencegah aksess ke folder yang tidak ada file index.html
-Options -Indexes
-
-# BEGIN WordPress
-# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
-# dynamically generated, and should only be modified via WordPress filters.
-# Any changes to the directives between these markers will be overwritten.
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-    RewriteBase /
-	# Blocking Author Scans in WordPress
-	RewriteCond %{QUERY_STRING} (author=\d+) [NC]
-	RewriteRule .* - [F]
-    RewriteRule ^wp-admin/includes/ - [F,L]
-    RewriteRule !^wp-includes/ - [S=3]
-    RewriteRule ^wp-includes/[^/]+\.php$ - [F,L]
-    RewriteRule ^wp-includes/js/tinymce/langs/.+\.php - [F,L]
-    RewriteRule ^wp-includes/theme-compat/ - [F,L]
-    RewriteRule ^index\.php$ - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /index.php [L]
-	# Disable hotlinking of images with forbidden or custom image option
-	RewriteCond %{HTTP_REFERER} !^$
-	RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?al-azhar.sch.id [NC]
-	RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?al-azhar.or.id [NC]
-    RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?google.com [NC]
-	RewriteRule \.(jpg|jpeg|png|gif)$ – [NC,F,L]
-</IfModule>
-
-#Protect .htaccess From Unauthorized Access
-<files ~ "^.*\.([Hh][Tt][Aa])">
-	order allow,deny
-	deny from all
-	satisfy all
-</files>
-
-# Block WordPress xmlrpc.php requests
-<Files xmlrpc.php>
-        order allow,deny
-        deny from all
-</Files>
-
-<Files wp-config.php>
-        order allow,deny
-        deny from all
-</Files>
-  
-<Files .htaccess>
-        order allow,deny
-        deny from all
-</Files>
-
-<Files wp-cron.php>
-        order allow,deny
-        deny from all
-</Files>
-
-<IfModule mod_gzip.c>
-   mod_gzip_on Yes
-   mod_gzip_dechunk Yes
-   mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
-   mod_gzip_item_include handler ^cgi-script$
-   mod_gzip_item_include mime ^text/.*
-   mod_gzip_item_include mime ^application/x-javascript.*
-   mod_gzip_item_exclude mime ^image/.*
-   mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
-</IfModule>
-
-# BEGIN DEFLATE COMPRESSION
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html
-    AddOutputFilterByType DEFLATE text/css
-    AddOutputFilterByType DEFLATE text/javascript
-    AddOutputFilterByType DEFLATE text/xml
-    AddOutputFilterByType DEFLATE text/plain
-    AddOutputFilterByType DEFLATE image/x-icon
-    AddOutputFilterByType DEFLATE image/svg+xml
-    AddOutputFilterByType DEFLATE application/rss+xml
-    AddOutputFilterByType DEFLATE application/javascript
-    AddOutputFilterByType DEFLATE application/x-javascript
-    AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/xhtml+xml
-    AddOutputFilterByType DEFLATE application/x-font
-    AddOutputFilterByType DEFLATE application/x-font-truetype
-    AddOutputFilterByType DEFLATE application/x-font-ttf
-    AddOutputFilterByType DEFLATE application/x-font-otf
-    AddOutputFilterByType DEFLATE application/x-font-opentype
-    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
-    AddOutputFilterByType DEFLATE font/ttf
-    AddOutputFilterByType DEFLATE font/otf
-    AddOutputFilterByType DEFLATE font/opentype
-    # For Olders Browsers Which Can't Handle Compression
-    BrowserMatch ^Mozilla/4 gzip-only-text/html
-    BrowserMatch ^Mozilla/4\.0[678] no-gzip
-    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-</IfModule>
-
-# Headers
-<IfModule mod_headers.c>
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-  Header set X-XSS-Protection "1; mode=block"
-  Header always set X-Content-Type-Options "nosniff"
-  Header always append X-Frame-Options DENY
-  Header set X-Permitted-Cross-Domain-Policies "none"
-  Header always set Referrer-Policy "strict-origin"
-  Header always set Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()"
-<IfModule mod_headers.c>
-
-# END DEFLATE COMPRESSION
-# END WordPress
-
-
-
-=============================================== V3 ========================================
-# mencegah aksess ke folder yang tidak ada file index.html
-Options -Indexes
-Options All -Indexes
-
-DirectoryIndex index.php index.html /index.php
-
-# Block WordPress xmlrpc.php requests
-<Files xmlrpc.php>
-        order allow,deny
-        deny from all
-</Files>
-
-<Files wp-config.php>
-        order allow,deny
-        deny from all
-</Files>
-
-<Files .htaccess>
-        order allow,deny
-        deny from all
-</Files>
-
-<Files wp-cron.php>
-        order allow,deny
-        deny from all
-</Files>
-
+# ====================================
+# Blok aksess ke readmi dan license
+# ==================================
 <FilesMatch "(^\.|readme\.html|license\.txt)">
-  Order Allow,Deny
-  Deny from all
+  Require all denied
 </FilesMatch>
-
-# Block PHP execution in uploads
-<IfModule mod_php.c>
-  <Directory wp-content/uploads>
-    <FilesMatch "\.php$">
-      Order Deny,Allow
-      Deny from all
-    </FilesMatch>
-  </Directory>
-</IfModule>
 
 # ==================
 # GZIP COMPRESSION
 # ==================
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
-  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+	AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+	AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+	AddOutputFilterByType DEFLATE image/svg+xml
+	AddOutputFilterByType DEFLATE application/json
+	AddOutputFilterByType DEFLATE font/ttf font/otf
 </IfModule>
 
 # =====================================
 # HSTS, HTTP Strict Transport Security
 # =====================================
 <IfModule mod_headers.c>
-    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+	#Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+	Header always set Strict-Transport-Security "max-age=63072000"
 </IfModule>
 
-# ==========================================
-# BROWSER & HTTP CACHE (CLOUDFLARE FRIENDLY)
-# ==========================================
-
-# Cache HTML (WordPress pages)
+# ==============
+# Mod Header
+# ==============
 <IfModule mod_headers.c>
-  Header set Cache-Control "public, max-age=3600"
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# =======================
+# ================================
+# XMLRPC DLL (disable if not used)
+# ================================
+<Files xmlrpc.php>
+	Require all denied
+</Files>
+
+<Files .htaccess>
+	Require all denied
+</Files>
+
+<Files wp-config.php>
+	Require all denied
+</Files>
+
+# ========================
 # WORDPRESS DEFAULT RULE
-# =======================
+# ========================
 # BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
-
-# ========================
-# Blok Author Enumeration
-# ========================
-RewriteCond %{QUERY_STRING} (^|&)author=\d+(&|$)
-RewriteRule ^ /? [L,R=301]
-
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-
+	RewriteEngine On
+	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+	RewriteBase /
+	RewriteRule ^index\.php$ - [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
 </IfModule>
+
 # END WordPress
-
-
-
-# Pudin
