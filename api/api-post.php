@@ -1,5 +1,9 @@
 <?php
 // Pudin Saepudin
+// https://domainanda.com/wp-json/custom/v1/posts
+// Single post:
+// https://domainanda.com/wp-json/custom/v1/posts/10
+
 add_action('rest_api_init', function () {
 	
 	// Untuk Semua post
