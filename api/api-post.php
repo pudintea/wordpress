@@ -19,7 +19,7 @@ add_action('rest_api_init', function () {
     ));
 });
 
-function pdn_custom_posts_api() {
+function custom_posts_api() {
     $posts = get_posts(array(
         'numberposts' => 5
     ));
@@ -39,7 +39,7 @@ function pdn_custom_posts_api() {
     return $data;
 }
 
-function pdn_custom_single_post_api($request) {
+function custom_single_post_api($request) {
     $id = $request['id'];
     if (!get_post($id)) {
         return new WP_Error('not_found', 'Post tidak ditemukan', array('status' => 404));
