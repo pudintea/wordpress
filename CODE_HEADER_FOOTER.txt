@@ -1,0 +1,24 @@
+CODE HEADER FOOTER
+====================
+Tambah ke HEADER:
+function custom_header_code() {
+    ?>
+    <!-- Kode kamu -->
+    <script>
+      console.log("Header via functions.php");
+    </script>
+    <?php
+}
+add_action('wp_head', 'custom_header_code');
+
+Tambah ke FOOTER:
+function custom_footer_code() {
+    ?>
+    <script>
+      console.log("Footer via functions.php");
+    </script>
+    <?php
+}
+add_action('wp_footer', 'custom_footer_code');
+
+
