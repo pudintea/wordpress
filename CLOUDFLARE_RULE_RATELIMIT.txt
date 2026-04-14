@@ -1,0 +1,59 @@
+Security > Security rules
+Urutan 1, BLOK :
+================
+(http.request.uri.path contains "/wp-config.php") or
+(http.request.uri.path contains "/.htaccess") or
+(http.request.uri.path eq "/xmlrpc.php") or
+(http.request.uri.path eq "/wp-admin/install.php") or
+(http.request.uri.path eq "/readme.html") or
+(http.request.uri.path eq "/license.txt") or
+(http.request.uri.path contains "/wp-json/wp/v2/users") or
+(http.request.uri.query contains "author=") or
+(http.request.uri.path contains ".php" and http.request.uri.path contains "/uploads/") or
+(http.request.uri.path contains "/wp-includes/" and http.request.uri.path contains ".php") or
+(http.request.uri.query contains "eval(") or
+(http.request.uri.query contains "base64") or
+(http.request.uri.query contains "<script") or
+(http.request.uri.path contains "/.git")
+
+Urutan 2, Blok Kecuali:
+========================
+(
+  http.request.uri.path contains "/wp-admin" or
+  http.request.uri.path eq "/wp-login.php" or
+  http.request.uri.path contains "/bo"
+)
+and not ip.geoip.country in {"ID"}
+
+Urutan 3, Managed CHALLENGE
+=======================================
+(http.request.uri.path eq "/wp-login.php") or
+(http.request.uri.path contains "/wp-admin") or
+(http.request.uri.path contains "/bo") or
+(http.request.uri.path eq "/wp-cron.php") or
+(http.request.uri.path contains "/wp-json/")
+
+
+RATE LIMIT (WAJIB — paling efektif lawan brute force)
+=====================================================
+Masuk ke:
+Security → Rate Limiting Rules
+Rule:
+URL: /wp-login.php
+Method: POST
+Requests: 5
+Period: 60 detik
+Action: Block
+Duration: 10 menit
+
+*) Ini jauh lebih penting dari sekadar block login
+
+DIbuat expression Rate Limite :
+http.request.method eq "POST" and 
+(
+  http.request.uri.path eq "/bo" or 
+  http.request.uri.path eq "/wp-login.php"
+)
+
+
+=========== PUDIN SAEPUDIN ====================
