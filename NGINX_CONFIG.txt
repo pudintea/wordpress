@@ -4,6 +4,11 @@
 
 ================== PHP ======================================
 disable_functions = phpinfo,exec,shell_exec,system,eval
+disable_functions = exec,system,shell_exec,passthru,popen,proc_open,phpinfo
+
+Restart
+> systemctl restart php8.4-fpm
+
 
 
 # Redirect HTTP ke HTTPS
