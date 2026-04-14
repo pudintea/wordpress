@@ -126,10 +126,11 @@ server {
     }
 	
 	# =========================
-    # Optimasi caching static file (biar lebih cepat)
+    # Optimasi caching static file (biar lebih cepat) 8 Jam saja, tidak jadi 30 hari
     # =========================
 	location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|webp|woff|woff2|ttf|eot)$ {
-		expires 30d;
+		expires 8h;
+		add_header Cache-Control "public, max-age=28800";
 		access_log off;
 		log_not_found off;
 	}
