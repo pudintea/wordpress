@@ -2,6 +2,10 @@
 # NGINX CONFIG
 # ====================
 
+================== PHP ======================================
+disable_functions = phpinfo,exec,shell_exec,system,eval
+
+
 # Redirect HTTP ke HTTPS
 server {
     listen 80;
