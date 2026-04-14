@@ -1,0 +1,125 @@
+# ====================
+# NGINX CONFIG
+# ====================
+
+# Redirect HTTP ke HTTPS
+server {
+    listen 80;
+    server_name sekolah.italazhar.net;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name sekolah.italazhar.net;
+
+    ssl_certificate /etc/cloudflare/italazhar.net.pem;
+    ssl_certificate_key /etc/cloudflare/italazhar.net.key;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    root /var/www/ypia/wp-sekolah;
+    index index.html index.php;
+    charset utf-8;
+	
+	# =========================
+	# GZIP COMPRESSION
+	# =========================
+	gzip on;
+	gzip_vary on;
+	gzip_proxied any;
+	gzip_comp_level 5;
+	gzip_buffers 16 8k;
+	gzip_http_version 1.1;
+	gzip_min_length 256;
+
+	gzip_types
+		text/plain
+		text/css
+		text/xml
+		text/javascript
+		application/javascript
+		application/x-javascript
+		application/json
+		application/xml
+		application/rss+xml
+		image/svg+xml
+		font/ttf
+		font/otf
+		application/vnd.ms-fontobject;
+
+    # =========================
+    # SECURITY
+    # =========================
+	# Header
+	add_header X-Frame-Options "SAMEORIGIN" always;
+	add_header X-XSS-Protection "1; mode=block" always;
+	add_header X-Content-Type-Options "nosniff" always;
+	add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+	add_header Content-Security-Policy "upgrade-insecure-requests" always;
+
+    # Blok wp-config
+    location = /wp-config.php {
+        deny all;
+    }
+
+    # Blok hidden files
+    location ~ /\. {
+        deny all;
+    }
+
+    # Blok PHP di uploads
+    location ~* ^/wp-content/uploads/.*\.php$ {
+        deny all;
+    }
+
+    # Izinkan hanya file statis di wp-content
+    location ~* ^/wp-content/.*\.(jpg|jpeg|png|gif|ico|css|js|svg|webp|woff|woff2|ttf|eot)$ {
+        access_log off;
+        log_not_found off;
+    }
+
+    # Blok file berbahaya saja di wp-content
+	location ~* ^/wp-content/.*\.(php|php5|phtml|phar)$ {
+		deny all;
+	}
+
+    # =========================
+    # MAIN HANDLER (WAJIB SATU SAJA)
+    # =========================
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+	
+	autoindex off;
+
+    # PHP handler
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # Blok .htaccess
+    location ~ /\.ht {
+        deny all;
+    }
+	
+	# =========================
+    # Optimasi caching static file (biar lebih cepat)
+    # =========================
+	location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|webp|woff|woff2|ttf|eot)$ {
+		expires 30d;
+		access_log off;
+		log_not_found off;
+	}
+}
+
+
+
+
+
+# ==================== PUDIN SAEPUDIN ===============================
