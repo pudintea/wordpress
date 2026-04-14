@@ -6,6 +6,14 @@
 disable_functions = phpinfo,exec,shell_exec,system,eval
 disable_functions = exec,system,shell_exec,passthru,popen,proc_open,phpinfo
 
+Bonus hardening tambahan (opsional tapi bagus)
+Tambahkan juga di php.ini:
+;; Hardening tambahan
+expose_php = Off
+display_errors = Off
+allow_url_fopen = Off
+allow_url_include = Off
+
 Restart
 > systemctl restart php8.4-fpm
 
