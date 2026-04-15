@@ -14,7 +14,22 @@ Urutan 1, BLOK :
 (http.request.uri.query contains "eval(") or
 (http.request.uri.query contains "base64") or
 (http.request.uri.query contains "<script") or
-(http.request.uri.path contains "/.git")
+(http.request.uri.path contains "/.git") or
+(http.referer contains "anonymousfox.co") or
+(http.request.uri contains "jm-ajax/upload-file")or
+(http.request.uri contains "vuln.ht") or
+(http.request.uri.path contains "/.") or
+(http.request.uri.path contains "/emergency.php") or
+(http.request.uri.path contains "/wp-config.php") or
+(http.request.uri.path contains "/wp-json/trx_addons/") or
+(http.request.uri.query contains "..%2F") or
+(http.request.uri.query contains "HelloThinkCMF") or
+(http.request.uri.query contains "aam-media=") or
+(http.request.uri.query contains "action=_ning_upload_image") or
+(http.request.uri.query contains "page=wysija_campaigns") or
+(http.request.uri.query contains "swp_url=https%3A%2F%2Fhastebin.com%2Fraw%2Fetonipusij") or
+(http.request.uri.query contains "wp_url=https://hastebin.com/raw/etonipusij") or
+(http.request.uri.query eq "up_auto_log=true")
 
 Urutan 2, Blok Kecuali:
 ========================
@@ -31,7 +46,32 @@ Urutan 3, Managed CHALLENGE
 (http.request.uri.path contains "/wp-admin") or
 (http.request.uri.path contains "/bo") or
 (http.request.uri.path eq "/wp-cron.php") or
-(http.request.uri.path contains "/wp-json/")
+(http.request.uri.path contains "wp-json/wp/v2/pages") or
+(http.request.uri.path contains "wp-json/wp/v2/posts")
+
+Urutan 4, Managed CHALLENGE BOT
+================================
+(
+  (not ip.geoip.country in {"ID" "MY" "SG"} and not cf.client.bot)
+  or (cf.threat_score > 10)
+  or
+  (
+    (http.user_agent contains "libwww-perl")
+    or (http.user_agent contains "lwp-trivial")
+    or (http.user_agent contains "LWP::Simple")
+    or (http.user_agent contains "python-requests")
+    or (http.user_agent contains "python-urllib")
+    or (http.user_agent contains "WinHttp-Autoproxy")
+    or (http.user_agent contains "DataForSeoBot")
+    or (http.user_agent contains "AhrefsBot")
+    or (http.user_agent contains "GPTBot")
+    or (http.user_agent contains "SemrushBot")
+    or (http.user_agent contains "MJ12bot")
+    or (http.user_agent contains "CCBot")
+    or (http.user_agent contains "TinyTestBot")
+  )
+)
+and not cf.client.bot
 
 
 RATE LIMIT (WAJIB — paling efektif lawan brute force)
@@ -48,12 +88,15 @@ Duration: 10 menit
 
 *) Ini jauh lebih penting dari sekadar block login
 
-DIbuat expression Rate Limite :
+Dibuat expression Rate Limite :
 http.request.method eq "POST" and 
 (
   http.request.uri.path eq "/bo" or 
-  http.request.uri.path eq "/wp-login.php"
+  http.request.uri.path eq "/wp-login.php" or
+  http.request.uri.path eq "/login" or 
+  http.request.uri.path eq "/masuk" or
+  http.request.uri.path eq "/auth" or
+  http.request.uri.path eq "/login.php"
 )
 
-
-=========== PUDIN SAEPUDIN ====================
+====== PUDIN SAEPUDIN ===================
