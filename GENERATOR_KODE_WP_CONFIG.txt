@@ -1,0 +1,27 @@
+GENERATE/BERUBAH SETIAP HARI
+function daily_salt($key) {
+    $date = date('Y-m-d'); // berubah setiap hari
+    $secret = 'RAHASIA_TAMBAHAN_KAMU_DI_SINI'; // HARUS kamu ganti
+    return hash('sha256', $key . $date . $secret);
+}
+
+define('AUTH_KEY',         daily_salt('AUTH_KEY'));
+define('SECURE_AUTH_KEY',  daily_salt('SECURE_AUTH_KEY'));
+define('LOGGED_IN_KEY',    daily_salt('LOGGED_IN_KEY'));
+define('NONCE_KEY',        daily_salt('NONCE_KEY'));
+define('AUTH_SALT',        daily_salt('AUTH_SALT'));
+define('SECURE_AUTH_SALT', daily_salt('SECURE_AUTH_SALT'));
+define('LOGGED_IN_SALT',   daily_salt('LOGGED_IN_SALT'));
+define('NONCE_SALT',       daily_salt('NONCE_SALT'));
+
+BERUBAH SETIAP MINGGU DAN BULAN
+$date = date('o-W'); // berubah mingguan
+// atau
+$date = date('Y-m'); // berubah bulanan
+
+
+Masukan di wp-config.php
+
+
+www.italazhar.com
+======== PUDIN SAEPUDIN =======
