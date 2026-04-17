@@ -42,10 +42,13 @@ and not ip.geoip.country in {"ID"}
 
 Urutan 3, Managed CHALLENGE
 =======================================
-(http.request.uri.path eq "/wp-login.php") or
-(http.request.uri.path contains "/wp-admin") or
+(http.request.uri.path contains "/wp-login.php") or
+(http.request.uri.path contains "/wp-cron.php") or
 (http.request.uri.path contains "/bo") or
-(http.request.uri.path eq "/wp-cron.php") or
+(http.request.uri.path contains "/login") or
+(http.request.uri.path contains "/auth") or
+(http.request.uri.path contains "/authentication") or
+(http.request.uri.path contains "wp-json/wp/v2") or
 (http.request.uri.path contains "wp-json/wp/v2/pages") or
 (http.request.uri.path contains "wp-json/wp/v2/posts")
 
@@ -91,12 +94,13 @@ Duration: 10 menit
 Dibuat expression Rate Limite :
 http.request.method eq "POST" and 
 (
-  http.request.uri.path eq "/bo" or 
-  http.request.uri.path eq "/wp-login.php" or
-  http.request.uri.path eq "/login" or 
-  http.request.uri.path eq "/masuk" or
-  http.request.uri.path eq "/auth" or
-  http.request.uri.path eq "/login.php"
+  http.request.uri.path contains "/bo" or 
+  http.request.uri.path contains "/wp-login.php" or
+  http.request.uri.path contains "/login" or 
+  http.request.uri.path contains "/masuk" or
+  http.request.uri.path contains "/auth" or
+  http.request.uri.path contains "/authentication" or
+  http.request.uri.path contains "/login.php"
 )
 
 ====== PUDIN SAEPUDIN ===================
