@@ -1,35 +1,34 @@
 Security > Security rules
 Urutan 1, BLOK :
 ================
-(http.request.uri.path contains "/wp-config.php") or
-(http.request.uri.path contains "/.htaccess") or
-(http.request.uri.path eq "/xmlrpc.php") or
-(http.request.uri.path eq "/wp-admin/install.php") or
-(http.request.uri.path eq "/readme.html") or
-(http.request.uri.path eq "/license.txt") or
-(http.request.uri.path contains "/wp-json/wp/v2/users") or
-(http.request.uri.query contains "author=") or
-(http.request.uri.path contains ".php" and http.request.uri.path contains "/uploads/") or
-(http.request.uri.path contains "/wp-includes/" and http.request.uri.path contains ".php") or
-(http.request.uri.query contains "eval(") or
-(http.request.uri.query contains "base64") or
-(http.request.uri.query contains "<script") or
-(http.request.uri.path contains "/.git") or
-(http.referer contains "anonymousfox.co") or
-(http.request.uri contains "jm-ajax/upload-file")or
-(http.request.uri contains "vuln.ht") or
-(http.request.uri.path contains "/.") or
-(http.request.uri.path contains "/emergency.php") or
-(http.request.uri.path contains "/wp-config.php") or
-(http.request.uri.path contains "/wp-json/trx_addons/") or
-(http.request.uri.query contains "..%2F") or
-(http.request.uri.query contains "HelloThinkCMF") or
-(http.request.uri.query contains "aam-media=") or
-(http.request.uri.query contains "action=_ning_upload_image") or
-(http.request.uri.query contains "page=wysija_campaigns") or
-(http.request.uri.query contains "swp_url=https%3A%2F%2Fhastebin.com%2Fraw%2Fetonipusij") or
-(http.request.uri.query contains "wp_url=https://hastebin.com/raw/etonipusij") or
-(http.request.uri.query eq "up_auto_log=true")
+(
+  http.request.uri.path contains "/wp-config.php" or
+  http.request.uri.path contains "/.htaccess" or
+  http.request.uri.path eq "/xmlrpc.php" or
+  http.request.uri.path eq "/wp-admin/install.php" or
+  http.request.uri.path eq "/readme.html" or
+  http.request.uri.path eq "/license.txt" or
+  http.request.uri.path contains "/wp-json/wp/v2/users" or
+
+  http.request.uri.path matches "(?i)/wp-content/uploads/.*\.php" or
+  http.request.uri.path contains ".php" and http.request.uri.path contains "/uploads/" or
+  http.request.uri.path contains "/wp-includes/" and http.request.uri.path contains ".php" or
+
+  http.request.uri.query contains "author=" or
+  http.request.uri.query contains "..%2F" or
+  http.request.uri.query contains "aam-media=" or
+  http.request.uri.query contains "action=_ning_upload_image" or
+  http.request.uri.query contains "page=wysija_campaigns" or
+  http.request.uri.query contains "HelloThinkCMF" or
+
+  http.request.uri.path contains "/.git" or
+  http.request.uri.path contains "/emergency.php" or
+  http.request.uri.path contains "/wp-json/trx_addons/" or
+
+  http.referer contains "anonymousfox.co" or
+  http.request.uri contains "jm-ajax/upload-file" or
+  http.request.uri contains "vuln.ht"
+)
 
 Urutan 2, Blok Kecuali:
 ========================
