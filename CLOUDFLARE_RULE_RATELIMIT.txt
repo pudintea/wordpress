@@ -39,15 +39,19 @@ and not ip.geoip.country in {"ID"}
 
 Urutan 3, Managed CHALLENGE
 =======================================
-(http.request.uri.path contains "/wp-login.php") or
-(http.request.uri.path contains "/wp-cron.php") or
-(http.request.uri.path contains "/bo") or
-(http.request.uri.path contains "/login") or
-(http.request.uri.path contains "/auth") or
-(http.request.uri.path contains "/authentication") or
-(http.request.uri.path contains "wp-json/wp/v2") or
-(http.request.uri.path contains "wp-json/wp/v2/pages") or
-(http.request.uri.path contains "wp-json/wp/v2/posts")
+(http.request.uri.path contains "/wp-login.php")
+or (http.request.uri.path contains "/wp-cron.php")
+or (http.request.uri.path contains "/bo")
+or (http.request.uri.path contains "/login")
+or (http.request.uri.path contains "/auth")
+or (http.request.uri.path contains "/authentication")
+or (http.request.uri.path contains "/wp-json/wp/v2")
+or (http.request.uri.path contains "/wp-json/wp/v2/pages")
+or (http.request.uri.path contains "/wp-json/wp/v2/posts")
+or (http.request.uri.path eq "/wp-admin/users.php")
+or (http.request.uri.path eq "/wp-admin/profile.php")
+or (http.request.uri.path eq "/wp-admin/export.php")
+or (http.request.uri.path eq "/wp-admin/options-general.php")
 
 Urutan 4, Managed CHALLENGE BOT
 ================================
@@ -72,6 +76,23 @@ Urutan 4, Managed CHALLENGE BOT
   )
 )
 and not cf.client.bot
+
+Urutan 5, DROP_SEMENTARA
+(http.request.uri.path eq "/wp-config.php")
+or (http.request.uri.path eq "/.htaccess")
+or (http.request.uri.path eq "/wp-admin/plugin-install.php")
+or (http.request.uri.path eq "/wp-admin/plugins.php")
+or (http.request.uri.path eq "/-admin/plugin-editor.php")
+or (http.request.uri.path eq "/wp-admin/themes.php")
+or (http.request.uri.path eq "/wp-admin/theme-install.php")
+or (http.request.uri.path eq "/wp-admin/theme-editor.php")
+or (http.request.uri.path eq "/wp-admin/user-new.php")
+or (http.request.uri.path eq "/-admin/erase-personal-data.php")
+or (http.request.uri.path eq "/wp-admin/export-personal-data.php")
+or (http.request.uri.path eq "/wp-admin/import.php")
+or (http.request.uri.path eq "/wp-admin/options-permalink.php")
+or (http.request.uri.path eq "/wp-admin/site-editor.php")
+
 
 
 RATE LIMIT (WAJIB — paling efektif lawan brute force)
