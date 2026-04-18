@@ -77,9 +77,7 @@ Urutan 4, Managed CHALLENGE BOT
 and not cf.client.bot
 
 Urutan 5, DROP_SEMENTARA
-(http.request.uri.path eq "/wp-config.php")
-or (http.request.uri.path eq "/.htaccess")
-or (http.request.uri.path eq "/wp-admin/plugin-install.php")
+(http.request.uri.path eq "/wp-admin/plugin-install.php")
 or (http.request.uri.path eq "/wp-admin/plugins.php")
 or (http.request.uri.path eq "/-admin/plugin-editor.php")
 or (http.request.uri.path eq "/wp-admin/themes.php")
